@@ -17,5 +17,5 @@ app.get('/materia/eventos/:materiaId/:fechaInicio', EventoController.eventosPorS
 
 app.get('/eventos/proximos/:fechaInicio', EventoController.eventosProximosPorProfesor);
 
-puerto = 3001
+puerto = 3000
 app.listen(puerto, () => console.log('Servidor corriendo en puerto', puerto));
