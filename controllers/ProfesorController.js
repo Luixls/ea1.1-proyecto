@@ -1,7 +1,7 @@
 class ProfesorController {
     static profesores = [];
     static ultimoId = 0;
-  
+
     static agregar(req, res) {
         const { nombre, materias } = req.body;
         const profesor = {
@@ -12,11 +12,34 @@ class ProfesorController {
         ProfesorController.profesores.push(profesor);
         res.json({ mensaje: 'Profesor agregado con éxito', profesor });
     }
-  
+
     static listar(req, res) {
         res.json(ProfesorController.profesores);
     }
-  }
-  
-  module.exports = ProfesorController;
-  
+
+    static editar(req, res) {
+        const { id } = req.params;
+        const { nombre, materias } = req.body;
+        const profesor = ProfesorController.profesores.find(p => p.id == id);
+        if (profesor) {
+            profesor.nombre = nombre;
+            profesor.materias = materias;
+            res.json({ mensaje: 'Profesor editado con éxito', profesor });
+        } else {
+            res.status(404).send('Profesor no encontrado');
+        }
+    }
+
+    static eliminar(req, res) {
+        const { id } = req.params;
+        const index = ProfesorController.profesores.findIndex(p => p.id == id);
+        if (index !== -1) {
+            ProfesorController.profesores.splice(index, 1);
+            res.send('Profesor eliminado con éxito');
+        } else {
+            res.status(404).send('Profesor no encontrado');
+        }
+    }
+}
+
+module.exports = ProfesorController;
