@@ -1,3 +1,6 @@
+const MateriaController = require('./MateriaController');
+
+
 class ProfesorController {
     static profesores = [];
     static ultimoId = 0;
@@ -40,6 +43,17 @@ class ProfesorController {
             res.status(404).send('Profesor no encontrado');
         }
     }
+
+    static profesoresConMaterias(req, res) {
+        const profesoresConDetalleMaterias = ProfesorController.profesores.map(profesor => {
+            const materiasDetalle = profesor.materias.map(idMateria => 
+                MateriaController.materias.find(materia => materia.id == idMateria)
+            );
+            return { ...profesor, materias: materiasDetalle };
+        });
+        res.render('profesoresConMaterias', { profesores: profesoresConDetalleMaterias });
+    }
+
 }
 
 module.exports = ProfesorController;
